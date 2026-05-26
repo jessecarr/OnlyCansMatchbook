@@ -539,6 +539,136 @@
     background: var(--text);
     color: var(--bg);
   }
+
+  /* Printable Book Styles */
+  .print-book {
+    display: none;
+  }
+
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    
+    .print-book, .print-book * {
+      visibility: visible;
+    }
+    
+    .print-book {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+    }
+    
+    .print-page {
+      page-break-after: always;
+      width: 8.5in;
+      height: 11in;
+      margin: 0;
+      padding: 0.5in;
+      box-sizing: border-box;
+      font-family: 'Times New Roman', serif;
+      font-size: 12pt;
+      line-height: 1.4;
+      color: black;
+      background: white;
+    }
+    
+    .print-cover-front {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 100%;
+      border: 2px solid black;
+    }
+    
+    .print-cover-back {
+      height: 100%;
+      border: 2px solid black;
+    }
+    
+    .print-title {
+      font-size: 24pt;
+      font-weight: bold;
+      margin-bottom: 1in;
+    }
+    
+    .print-subtitle {
+      font-size: 18pt;
+      margin-bottom: 2in;
+    }
+    
+    .print-cover-image {
+      max-width: 3in;
+      max-height: 3in;
+      margin-bottom: 1in;
+    }
+    
+    .print-section-title {
+      font-size: 16pt;
+      font-weight: bold;
+      margin-bottom: 0.25in;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    
+    .print-stage-header {
+      font-size: 14pt;
+      font-weight: bold;
+      margin-bottom: 0.2in;
+      border-bottom: 1px solid black;
+      padding-bottom: 0.1in;
+    }
+    
+    .print-stage-content {
+      margin-bottom: 0.3in;
+    }
+    
+    .print-notes-section {
+      margin-top: 0.5in;
+      border-top: 1px dashed black;
+      padding-top: 0.2in;
+      min-height: 2in;
+    }
+    
+    .print-notes-title {
+      font-weight: bold;
+      margin-bottom: 0.1in;
+    }
+    
+    .print-notes-area {
+      border: 1px solid #999;
+      min-height: 1.5in;
+      padding: 0.1in;
+      background: white;
+      background-image: repeating-linear-gradient(
+        transparent,
+        transparent 0.24in,
+        #ccc 0.24in,
+        #ccc 0.25in
+      );
+    }
+    
+    .print-sponsor-logo {
+      max-width: 1.5in;
+      max-height: 1in;
+      margin: 0.2in auto;
+      display: block;
+    }
+    
+    .print-day-separator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      font-size: 48pt;
+      font-weight: bold;
+      text-align: center;
+    }
+  }
 </style>
 </head>
 <body>
@@ -624,6 +754,7 @@
     
     <button class="download-btn" onclick="downloadApp()">⬇️ Download App</button>
     <button class="download-btn" onclick="showInstructions()">📋 Instructions</button>
+    <button class="download-btn" onclick="exportPrintableBook()">📖 Export Printable Book</button>
   </div>
 </div>
 
@@ -1706,7 +1837,144 @@ function highlightCurrentStage() {
 if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
   console.log('iOS device detected');
 }
+
+// Printable Book Export Functions
+function stripHtml(html) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || '';
+}
+
+function generateCoverPage() {
+  return `
+    <div class="print-page">
+      <div class="print-cover-front">
+        <h1 class="print-title">Full Circle Shooting Supply</h1>
+        <h2 class="print-subtitle">Only Cans 2026</h2>
+        <img src="images/mo-mile-logo.jpg" alt="Cover Image" class="print-cover-image">
+      </div>
+    </div>
+    <div class="print-page">
+      <div class="print-cover-back">
+        <p style="text-align: center; margin-top: 5in; color: #999;">This page intentionally left blank</p>
+      </div>
+    </div>
+  `;
+}
+
+function generateOverviewPage() {
+  return `
+    <div class="print-page">
+      <div class="print-section-title">Title Sponsor</div>
+      <img src="images/ABSuppressorLogo.png" alt="AB Suppressor" class="print-sponsor-logo">
+      <p style="text-align: center; margin-bottom: 0.5in;"><strong>AB Suppressor</strong></p>
+      
+      <div class="print-section-title">Day 1 - Gadsden Shooting Center</div>
+      <img src="images/gadsden-logo.jpg" alt="Gadsden" class="print-sponsor-logo">
+      <p style="text-align: center;">538 MO EE, Iberia, MO 65486</p>
+      
+      <div class="print-section-title" style="margin-top: 0.5in;">Day 2 - Missouri Mile Shooting Ranch</div>
+      <img src="images/mo-mile-logo.jpg" alt="Missouri Mile" class="print-sponsor-logo">
+      <p style="text-align: center;">398 Foxtrotter Lane, Macks Creek, MO 65786</p>
+    </div>
+  `;
+}
+
+function generateStagePage(stage) {
+  const cofText = stripHtml(stage.cof);
+  const targetSummary = stripHtml(stage.target_summary);
+  
+  return `
+    <div class="print-page">
+      <div class="print-stage-header">${stage.stage} - ${stage.title}</div>
+      
+      <div class="print-stage-content">
+        <div style="margin-bottom: 0.15in;">
+          <strong>Sponsor:</strong> ${stage.sponsor}
+        </div>
+        <div style="margin-bottom: 0.15in;">
+          <strong>Range:</strong> ${stage.range}
+        </div>
+        <div style="margin-bottom: 0.15in;">
+          <strong>Time:</strong> ${stage.time} seconds
+        </div>
+        <div style="margin-bottom: 0.15in;">
+          <strong>Rounds:</strong> ${stage.rounds}
+        </div>
+        <div style="margin-bottom: 0.15in;">
+          <strong>Distance:</strong> ${stage.distance} yards
+        </div>
+        <div style="margin-bottom: 0.15in;">
+          <strong>Start Position:</strong> ${stage.start_position}
+        </div>
+        
+        <div style="margin-top: 0.2in; margin-bottom: 0.15in;">
+          <strong>Course of Fire:</strong><br>
+          ${cofText}
+        </div>
+        
+        <div style="margin-bottom: 0.15in;">
+          <strong>Rules & Notes:</strong><br>
+          ${stage.rules_notes.map(r => '• ' + r).join('<br>')}
+        </div>
+        
+        <div style="margin-bottom: 0.15in;">
+          <strong>Target Summary:</strong><br>
+          ${targetSummary}
+        </div>
+      </div>
+      
+      <div class="print-notes-section">
+        <div class="print-notes-title">Handwritten Notes:</div>
+        <div class="print-notes-area"></div>
+      </div>
+    </div>
+  `;
+}
+
+function generateDaySeparator() {
+  return `
+    <div class="print-page">
+      <div class="print-day-separator">DAY 2</div>
+    </div>
+  `;
+}
+
+function exportPrintableBook() {
+  const printBook = document.getElementById('print-book');
+  let html = '';
+  
+  // Generate cover pages
+  html += generateCoverPage();
+  
+  // Generate overview page
+  html += generateOverviewPage();
+  
+  // Generate Day 1 stages
+  const day1Stages = stages.filter(s => s.day === 'Day 1');
+  day1Stages.forEach(stage => {
+    html += generateStagePage(stage);
+  });
+  
+  // Generate day separator
+  html += generateDaySeparator();
+  
+  // Generate Day 2 stages
+  const day2Stages = stages.filter(s => s.day === 'Day 2');
+  day2Stages.forEach(stage => {
+    html += generateStagePage(stage);
+  });
+  
+  printBook.innerHTML = html;
+  
+  // Trigger print dialog
+  setTimeout(() => {
+    window.print();
+  }, 500);
+}
 </script>
+
+<div class="print-book" id="print-book"></div>
 
 </body>
 </html>
