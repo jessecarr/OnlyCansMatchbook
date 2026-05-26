@@ -428,6 +428,114 @@
   .ios-instructions strong {
     color: var(--accent);
   }
+
+  /* Home page styles */
+  .welcome-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .welcome-header h1 {
+    font-size: clamp(36px, 6vw, 60px);
+    margin-bottom: 10px;
+  }
+
+  .welcome-header h2 {
+    font-size: clamp(28px, 5vw, 48px);
+    color: var(--accent);
+    margin-bottom: 30px;
+  }
+
+  .title-sponsor {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 40px;
+  }
+
+  .title-sponsor h3 {
+    color: var(--muted);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+  }
+
+  .sponsor-logo-img {
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 15px;
+  }
+
+  .match-overview {
+    margin-bottom: 40px;
+  }
+
+  .match-overview h3 {
+    color: var(--accent);
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .day-cards {
+    display: grid;
+    gap: 30px;
+  }
+
+  @media(min-width: 720px) {
+    .day-cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .day-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .day-card h4 {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 15px;
+    margin: 0;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .day-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .location-info {
+    padding: 20px;
+  }
+
+  .location-info p {
+    margin: 5px 0;
+  }
+
+  .maps-link {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .maps-link:hover {
+    background: var(--text);
+    color: var(--bg);
+  }
 </style>
 </head>
 <body>
@@ -463,7 +571,41 @@
   </div>
 </div>
 
-<div class="container">
+<div class="container" id="home-container">
+  <div class="welcome-header">
+    <h1>2026 Full Circle Shooting Supply</h1>
+    <h2>Only Cans Match</h2>
+    <div class="title-sponsor">
+      <h3>Title Sponsor</h3>
+      <img src="https://i.imgur.com/ABSuppressorLogo.png" alt="AB Suppressor" class="sponsor-logo-img">
+      <p>AB Suppressor</p>
+    </div>
+  </div>
+
+  <div class="match-overview">
+    <h3>Match Overview</h3>
+    <div class="day-cards">
+      <div class="day-card">
+        <h4>Day 1 - Gadsden Shooting Center</h4>
+        <img src="https://i.imgur.com/Day1Image.png" alt="Day 1 Range" class="day-image">
+        <div class="location-info">
+          <p><strong>Location:</strong> Gadsden Shooting Center</p>
+          <p><strong>Address:</strong> 538 MO EE, Iberia, MO 65486</p>
+          <a href="https://maps.google.com/?q=538+MO+EE,+Iberia,+MO+65486" target="_blank" class="maps-link">📍 Get Directions</a>
+        </div>
+      </div>
+      
+      <div class="day-card">
+        <h4>Day 2 - Missouri Mile Shooting Ranch</h4>
+        <img src="https://i.imgur.com/Day2Image.png" alt="Day 2 Range" class="day-image">
+        <div class="location-info">
+          <p><strong>Location:</strong> Missouri Mile Shooting Ranch</p>
+          <p><strong>Address:</strong> 398 Foxtrotter Lane, Macks Creek, MO 65786</p>
+          <a href="https://maps.google.com/?q=398+Foxtrotter+Lane,+Macks+Creek,+MO+65786" target="_blank" class="maps-link">📍 Get Directions</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="download-banner">
     <h3>📱 Download for Offline Use</h3>
@@ -480,6 +622,9 @@
     <button class="download-btn" onclick="downloadApp()">⬇️ Download App</button>
     <button class="download-btn" onclick="showInstructions()">📋 Instructions</button>
   </div>
+</div>
+
+<div class="container" id="stage-container" style="display: none;">
 
   <div class="range-header">
     <div>Gadsden Shooting Range</div>
@@ -1141,13 +1286,32 @@ function getCurrentDayIndex() {
   return dayStages.findIndex(stage => stage.stage === stages[currentStage].stage);
 }
 
+function showHome() {
+  document.getElementById('home-container').style.display = 'block';
+  document.getElementById('stage-container').style.display = 'none';
+  document.getElementById('stage-index').style.display = 'none';
+  
+  // Update tab active states
+  document.querySelectorAll('.topbar a').forEach(tab => {
+    tab.classList.remove('active');
+  });
+}
+
+function showStages() {
+  document.getElementById('home-container').style.display = 'none';
+  document.getElementById('stage-container').style.display = 'block';
+}
+
 function renderStage(index) {
   const stage = stages[index];
   const dayStages = getDayStages(stage.day);
   const stageNumber = dayStages.findIndex(s => s.stage === stage.stage) + 1;
 
+  // Show stages container and hide home
+  showStages();
+
   // Update entire container content
-  const container = document.querySelector('.container');
+  const container = document.getElementById('stage-container');
   container.innerHTML = `
     <div class="range-header">
       <div>${stage.range}</div>
@@ -1261,6 +1425,12 @@ function attachNavListeners() {
   });
 }
 
+// Navigation event listeners
+document.querySelector('a[href="#sponsors"]').addEventListener('click', (e) => {
+  e.preventDefault();
+  showHome();
+});
+
 // Day tab navigation (these don't get re-rendered)
 document.getElementById('day1-tab').addEventListener('click', (e) => {
   e.preventDefault();
@@ -1272,8 +1442,8 @@ document.getElementById('day2-tab').addEventListener('click', (e) => {
   switchDay('Day 2');
 });
 
-// Initialize
-renderStage(currentStage);
+// Initialize - show home page
+showHome();
 
 // Notes Manager class
 class NotesManager {
