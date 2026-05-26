@@ -134,8 +134,12 @@
 
   .quick-stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
+  }
+
+  .stat.distance-stat {
+    grid-column: span 2;
   }
 
   @media(max-width: 720px) {
@@ -266,19 +270,11 @@
   }
 
   .notes-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
+    display: none;
   }
 
   .save-status {
-    color: var(--muted);
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0.5;
-    transition: opacity 0.3s ease;
+    display: none;
   }
 
   /* Mobile optimizations */
@@ -515,7 +511,7 @@
           <div class="stat-value">9</div>
         </div>
 
-        <div class="stat">
+        <div class="stat distance-stat">
           <div class="stat-label">Distance</div>
           <div class="stat-value">330 / 400 / 500</div>
         </div>
@@ -588,7 +584,7 @@
 
   <div class="nav-buttons">
     <a href="#" id="prev-btn">← Previous</a>
-    <a href="#index">Stage Index</a>
+    <a href="#" onclick="showStageIndex(); return false;">Stage Index</a>
     <a href="#" id="next-btn">Next →</a>
   </div>
 
@@ -1180,7 +1176,7 @@ function renderStage(index) {
             <div class="stat-label">Rounds</div>
             <div class="stat-value">${stage.rounds}</div>
           </div>
-          <div class="stat">
+          <div class="stat distance-stat">
             <div class="stat-label">Distance</div>
             <div class="stat-value">${stage.distance}</div>
           </div>
@@ -1222,7 +1218,7 @@ function renderStage(index) {
 
     <div class="nav-buttons">
       <a href="#" id="prev-btn">← Previous</a>
-      <a href="#index">Stage Index</a>
+      <a href="#" onclick="showStageIndex(); return false;">Stage Index</a>
       <a href="#" id="next-btn">Next →</a>
     </div>
   `;
