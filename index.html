@@ -1975,6 +1975,44 @@ function generateDaySeparatorStageSheet(stage) {
   `;
 }
 
+function generateBlankPage() {
+  return `
+    <div class="print-cover-back">
+      <p style="text-align: center; margin-top: 3.5in; color: #999; font-size: 10pt;">This page intentionally left blank</p>
+    </div>
+  `;
+}
+
+function generateFrontCover() {
+  return `
+    <div class="print-cover-front">
+      <h1 class="print-title">Full Circle Shooting Supply</h1>
+      <h2 class="print-subtitle">Only Cans 2026</h2>
+      <img src="images/mo-mile-logo.jpg" alt="Cover Image" class="print-cover-image">
+    </div>
+  `;
+}
+
+function generateOverviewPage() {
+  return `
+    <div class="print-section-title">Title Sponsor</div>
+    <img src="images/ABSuppressorLogo.png" alt="AB Suppressor" class="print-sponsor-logo">
+    <p style="text-align: center; margin-bottom: 0.3in; font-size: 10pt;"><strong>AB Suppressor</strong></p>
+    
+    <div class="print-section-title">Day 1 - Gadsden Shooting Center</div>
+    <img src="images/gadsden-logo.jpg" alt="Gadsden" class="print-sponsor-logo">
+    <p style="text-align: center; font-size: 9pt;">538 MO EE, Iberia, MO 65486</p>
+    
+    <div class="print-section-title">Day 2 - Missouri Mile Shooting Ranch</div>
+    <img src="images/mo-mile-logo.jpg" alt="Missouri Mile" class="print-sponsor-logo">
+    <p style="text-align: center; font-size: 9pt;">398 Foxtrotter Lane, Macks Creek, MO 65786</p>
+  `;
+}
+
+function generateDaySeparatorPage() {
+  return `<div class="print-day-separator">DAY 2</div>`;
+}
+
 function exportPrintableBook() {
   const printBook = document.getElementById('print-book');
   let html = '';
@@ -1982,26 +2020,50 @@ function exportPrintableBook() {
   const day1Stages = stages.filter(s => s.day === 'Day 1');
   const day2Stages = stages.filter(s => s.day === 'Day 2');
   
-  // Sheet 1: Cover pages
-  html += generateCoverSheet();
+  // Create all 22 pages in reading order
+  const pages = [];
+  pages[0] = generateFrontCover();                    // Page 1: Front Cover
+  pages[1] = generateStageContent(day2Stages[0]);     // Page 2: Day 2 Stage 1 (inside front cover)
+  pages[2] = generateOverviewPage();                  // Page 3: Match Overview
+  pages[3] = generateStageContent(day1Stages[0]);     // Page 4: Day 1 Stage 1
+  pages[4] = generateStageContent(day1Stages[1]);     // Page 5: Day 1 Stage 2
+  pages[5] = generateStageContent(day1Stages[2]);     // Page 6: Day 1 Stage 3
+  pages[6] = generateStageContent(day1Stages[3]);     // Page 7: Day 1 Stage 4
+  pages[7] = generateStageContent(day1Stages[4]);     // Page 8: Day 1 Stage 5
+  pages[8] = generateStageContent(day1Stages[5]);     // Page 9: Day 1 Stage 6
+  pages[9] = generateStageContent(day1Stages[6]);     // Page 10: Day 1 Stage 7
+  pages[10] = generateStageContent(day1Stages[7]);    // Page 11: Day 1 Stage 8
+  pages[11] = generateStageContent(day1Stages[8]);    // Page 12: Day 1 Stage 9
+  pages[12] = generateDaySeparatorPage();             // Page 13: Day 2 Separator
+  pages[13] = generateStageContent(day2Stages[1]);    // Page 14: Day 2 Stage 2
+  pages[14] = generateStageContent(day2Stages[2]);    // Page 15: Day 2 Stage 3
+  pages[15] = generateStageContent(day2Stages[3]);    // Page 16: Day 2 Stage 4
+  pages[16] = generateStageContent(day2Stages[4]);    // Page 17: Day 2 Stage 5
+  pages[17] = generateStageContent(day2Stages[5]);    // Page 18: Day 2 Stage 6
+  pages[18] = generateStageContent(day2Stages[6]);    // Page 19: Day 2 Stage 7
+  pages[19] = generateStageContent(day2Stages[7]);    // Page 20: Day 2 Stage 8
+  pages[20] = generateStageContent(day2Stages[8]);    // Page 21: Day 2 Stage 9
+  pages[21] = generateBlankPage();                    // Page 22: Back Cover (blank)
   
-  // Sheet 2: Overview + Day 1 Stage 1
-  html += generateOverviewStageSheet(day1Stages[0]);
+  // Apply imposition order for saddle-stitched binding
+  const totalPages = pages.length;
+  const totalSheets = totalPages / 2;
   
-  // Sheets 3-6: Day 1 stages paired (2&3, 4&5, 6&7, 8&9)
-  html += generateStagePairSheet(day1Stages[1], day1Stages[2]); // Stage 2 & 3
-  html += generateStagePairSheet(day1Stages[3], day1Stages[4]); // Stage 4 & 5
-  html += generateStagePairSheet(day1Stages[5], day1Stages[6]); // Stage 6 & 7
-  html += generateStagePairSheet(day1Stages[7], day1Stages[8]); // Stage 8 & 9
-  
-  // Sheet 7: Day separator + Day 2 Stage 1
-  html += generateDaySeparatorStageSheet(day2Stages[0]);
-  
-  // Sheets 8-11: Day 2 stages paired (2&3, 4&5, 6&7, 8&9)
-  html += generateStagePairSheet(day2Stages[1], day2Stages[2]); // Stage 2 & 3
-  html += generateStagePairSheet(day2Stages[3], day2Stages[4]); // Stage 4 & 5
-  html += generateStagePairSheet(day2Stages[5], day2Stages[6]); // Stage 6 & 7
-  html += generateStagePairSheet(day2Stages[7], day2Stages[8]); // Stage 8 & 9
+  for (let i = 0; i < totalSheets; i++) {
+    const leftPageIndex = totalPages - 1 - (i * 2);
+    const rightPageIndex = i * 2;
+    
+    html += `
+      <div class="print-sheet">
+        <div class="print-page-left">
+          ${pages[leftPageIndex]}
+        </div>
+        <div class="print-page-right">
+          ${pages[rightPageIndex]}
+        </div>
+      </div>
+    `;
+  }
   
   printBook.innerHTML = html;
   
