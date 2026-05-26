@@ -271,25 +271,6 @@
     margin-top: 10px;
   }
 
-  .notes-btn {
-    background: var(--accent);
-    color: var(--bg);
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    touch-action: manipulation;
-  }
-
-  .notes-btn:hover {
-    background: #8a9a3a;
-  }
-
   .save-status {
     color: var(--muted);
     font-size: 12px;
@@ -297,32 +278,6 @@
     letter-spacing: 1px;
     opacity: 0.5;
     transition: opacity 0.3s ease;
-  }
-
-  .notes-management {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-    flex-wrap: wrap;
-  }
-
-  .export-import-btn {
-    background: var(--accent);
-    color: var(--bg);
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    touch-action: manipulation;
-  }
-
-  .export-import-btn:hover {
-    background: #8a9a3a;
   }
 
   /* Mobile optimizations */
@@ -334,6 +289,106 @@
     
     .dope-item {
       border-right: none;
+    }
+  }
+
+  /* Stage Index Styles */
+  .stage-index {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  .stage-index-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: rgba(8,8,8,.95);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+  }
+
+  .back-btn {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 15px;
+    touch-action: manipulation;
+  }
+
+  .stage-index-header h2 {
+    margin: 0;
+    color: var(--text);
+  }
+
+  .stage-index-content {
+    padding: 20px;
+  }
+
+  .day-section {
+    margin-bottom: 30px;
+  }
+
+  .day-section h3 {
+    color: var(--accent);
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
+
+  .stage-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .stage-item {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    touch-action: manipulation;
+  }
+
+  .stage-item:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .stage-item.current {
+    border-color: var(--accent);
+    background: rgba(157, 179, 67, 0.1);
+  }
+
+  .stage-item-title {
+    font-weight: bold;
+    color: var(--text);
+    margin-bottom: 5px;
+  }
+
+  .stage-item-info {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  @media(max-width: 720px) {
+    .stage-index-content {
+      padding: 15px;
+    }
+    
+    .stage-item {
+      padding: 12px;
     }
   }
 
@@ -383,7 +438,7 @@
 <div class="topbar">
   <a href="#" class="active" id="day1-tab">Day 1</a>
   <a href="#" id="day2-tab">Day 2</a>
-  <a href="#index">Stage Index</a>
+  <a href="#" onclick="showStageIndex(); return false;">Stage Index</a>
   <a href="#sponsors">Sponsors</a>
   <a href="#dope">DOPE</a>
   <a href="#info">Match Info</a>
@@ -405,6 +460,29 @@
     
     <button class="download-btn" onclick="downloadApp()">⬇️ Download App</button>
     <button class="download-btn" onclick="showInstructions()">📋 Instructions</button>
+  </div>
+
+  <div id="stage-index" class="stage-index" style="display: none;">
+    <div class="stage-index-header">
+      <button class="back-btn" onclick="hideStageIndex()">← Back</button>
+      <h2>Stage Index</h2>
+    </div>
+    
+    <div class="stage-index-content">
+      <div class="day-section">
+        <h3>Day 1 - Gadsden Shooting Range</h3>
+        <div class="stage-list" id="day1-stages">
+          <!-- Stages will be populated by JavaScript -->
+        </div>
+      </div>
+      
+      <div class="day-section">
+        <h3>Day 2 - Missouri Mile Shooting Ranch</h3>
+        <div class="stage-list" id="day2-stages">
+          <!-- Stages will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="range-header">
@@ -520,13 +598,7 @@
     <label>Notes</label>
     <textarea id="notes-input" placeholder="Enter your stage notes here..."></textarea>
     <div class="notes-controls">
-      <button id="clear-notes" class="notes-btn">Clear</button>
       <span id="save-status" class="save-status">Saved</span>
-    </div>
-    <div class="notes-management">
-      <button id="export-notes" class="export-import-btn">Export All Notes</button>
-      <button id="import-notes" class="export-import-btn">Import Notes</button>
-      <input type="file" id="file-input" accept=".json" style="display: none;">
     </div>
   </div>
 </div>
@@ -1212,12 +1284,8 @@ class NotesManager {
   constructor() {
     this.stageKey = this.getStageKey();
     this.notesInput = document.getElementById('notes-input');
-    this.clearBtn = document.getElementById('clear-notes');
     this.saveStatus = document.getElementById('save-status');
     this.saveTimeout = null;
-    this.exportBtn = document.getElementById('export-notes');
-    this.importBtn = document.getElementById('import-notes');
-    this.fileInput = document.getElementById('file-input');
     
     this.init();
   }
@@ -1240,19 +1308,6 @@ class NotesManager {
     });
 
     this.notesInput.addEventListener('blur', () => this.saveNotes());
-    this.clearBtn.addEventListener('click', () => this.clearNotes());
-    this.exportBtn.addEventListener('click', () => this.exportAllNotes());
-    this.importBtn.addEventListener('click', () => {
-      this.fileInput.click();
-    });
-
-    this.fileInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        this.importNotes(file);
-      }
-    });
-
     window.addEventListener('beforeunload', () => this.saveNotes());
   }
 
@@ -1272,14 +1327,6 @@ class NotesManager {
     this.showSaveStatus('Saved');
   }
 
-  clearNotes() {
-    if (confirm('Clear all notes for this stage?')) {
-      localStorage.removeItem(this.stageKey);
-      this.notesInput.value = '';
-      this.showSaveStatus('Cleared');
-    }
-  }
-
   showSaveStatus(status) {
     this.saveStatus.textContent = status;
     this.saveStatus.style.opacity = '1';
@@ -1289,43 +1336,6 @@ class NotesManager {
         this.saveStatus.style.opacity = '0.5';
       }, 2000);
     }
-  }
-
-  exportAllNotes() {
-    const allNotes = {};
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key.startsWith('prs_') && key.endsWith('_notes')) {
-        const stageName = key.replace('prs_', '').replace('_notes', '');
-        allNotes[stageName] = localStorage.getItem(key);
-      }
-    }
-    
-    const blob = new Blob([JSON.stringify(allNotes, null, 2)], 
-      {type: 'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'prs_matchbook_notes.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  importNotes(file) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      try {
-        const notes = JSON.parse(e.target.result);
-        Object.entries(notes).forEach(([stageName, value]) => {
-          const key = `prs_${stageName}_notes`;
-          localStorage.setItem(key, value);
-        });
-        alert('Notes imported successfully! Refresh to see imported notes.');
-      } catch (error) {
-        alert('Error importing notes: ' + error.message);
-      }
-    };
-    reader.readAsText(file);
   }
 
   updateStageKey() {
@@ -1354,6 +1364,77 @@ function downloadApp() {
 
 function showInstructions() {
   alert('Download Instructions:\n\niPhone/iPad:\n1. Tap Share button in Safari\n2. Select "Download to Files"\n3. Open downloaded file\n\nAndroid:\n1. Tap download button\n2. Open downloaded file\n3. Works offline immediately');
+}
+
+// Stage Index Functions
+function showStageIndex() {
+  document.getElementById('stage-index').style.display = 'block';
+  populateStageIndex();
+}
+
+function hideStageIndex() {
+  document.getElementById('stage-index').style.display = 'none';
+}
+
+function populateStageIndex() {
+  const day1Stages = stages.filter(s => s.day === 'Day 1');
+  const day2Stages = stages.filter(s => s.day === 'Day 2');
+  
+  const day1Container = document.getElementById('day1-stages');
+  const day2Container = document.getElementById('day2-stages');
+  
+  day1Container.innerHTML = '';
+  day2Container.innerHTML = '';
+  
+  day1Stages.forEach((stage, index) => {
+    const stageElement = createStageElement(stage, index);
+    day1Container.appendChild(stageElement);
+  });
+  
+  day2Stages.forEach((stage, index) => {
+    const stageElement = createStageElement(stage, stages.indexOf(stage));
+    day2Container.appendChild(stageElement);
+  });
+  
+  highlightCurrentStage();
+}
+
+function createStageElement(stage, globalIndex) {
+  const div = document.createElement('div');
+  div.className = 'stage-item';
+  div.dataset.globalIndex = globalIndex;
+  div.onclick = () => goToStage(globalIndex);
+  
+  div.innerHTML = `
+    <div class="stage-item-title">${stage.stage}: ${stage.title}</div>
+    <div class="stage-item-info">${stage.time}s | ${stage.rounds} rounds | ${stage.distance}</div>
+  `;
+  
+  return div;
+}
+
+function goToStage(globalIndex) {
+  currentStage = globalIndex;
+  currentDay = stages[globalIndex].day;
+  renderStage(globalIndex);
+  hideStageIndex();
+  
+  // Update tab active states
+  document.querySelectorAll('.topbar a').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  document.getElementById(currentDay === 'Day 1' ? 'day1-tab' : 'day2-tab').classList.add('active');
+}
+
+function highlightCurrentStage() {
+  document.querySelectorAll('.stage-item').forEach(item => {
+    item.classList.remove('current');
+  });
+  
+  const currentItem = document.querySelector(`[data-global-index="${currentStage}"]`);
+  if (currentItem) {
+    currentItem.classList.add('current');
+  }
 }
 
 // Detect iOS and show appropriate message
