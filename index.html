@@ -546,15 +546,15 @@
   }
 
   @media print {
-    body * {
-      visibility: hidden;
-    }
-    
-    .print-book, .print-book * {
-      visibility: visible;
+    .topbar,
+    .stage-index,
+    #home-container,
+    #stage-container {
+      display: none !important;
     }
     
     .print-book {
+      display: block !important;
       position: absolute;
       left: 0;
       top: 0;
