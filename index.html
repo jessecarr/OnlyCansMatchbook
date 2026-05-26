@@ -80,6 +80,7 @@
     letter-spacing: 2px;
     font-size: 18px;
     margin-bottom: 10px;
+    text-decoration: underline;
   }
 
   h1 {
@@ -1450,8 +1451,167 @@ document.getElementById('day2-tab').addEventListener('click', (e) => {
   switchDay('Day 2');
 });
 
-// Initialize - show home page
-showHome();
+// Page state persistence functions
+function savePageState() {
+  const state = {
+    currentView: document.getElementById('home-container').style.display === 'block' ? 'home' : 'stage',
+    currentStage: currentStage,
+    currentDay: currentDay
+  };
+  localStorage.setItem('matchbookState', JSON.stringify(state));
+}
+
+function restorePageState() {
+  const savedState = localStorage.getItem('matchbookState');
+  if (savedState) {
+    const state = JSON.parse(savedState);
+    currentStage = state.currentStage || 0;
+    currentDay = state.currentDay || 'Day 1';
+    
+    if (state.currentView === 'home') {
+      showHome();
+    } else {
+      renderStage(currentStage);
+      // Update tab active states
+      document.querySelectorAll('.topbar a').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.getElementById(currentDay === 'Day 1' ? 'day1-tab' : 'day2-tab').classList.add('active');
+    }
+  } else {
+    showHome();
+  }
+}
+
+// Update navigation functions to save state
+function showHome() {
+  document.getElementById('home-container').style.display = 'block';
+  document.getElementById('stage-container').style.display = 'none';
+  document.getElementById('stage-index').style.display = 'none';
+  
+  // Update tab active states
+  document.querySelectorAll('.topbar a').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  
+  savePageState();
+}
+
+function showStages() {
+  document.getElementById('home-container').style.display = 'none';
+  document.getElementById('stage-container').style.display = 'block';
+  savePageState();
+}
+
+function switchDay(day) {
+  currentDay = day;
+  const dayStages = getDayStages(day);
+  currentStage = stages.findIndex(stage => stage === dayStages[0]);
+  
+  document.querySelectorAll('.topbar a').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  document.getElementById(day === 'Day 1' ? 'day1-tab' : 'day2-tab').classList.add('active');
+  
+  renderStage(currentStage);
+}
+
+function renderStage(index) {
+  const stage = stages[index];
+  const dayStages = getDayStages(stage.day);
+  const stageNumber = dayStages.findIndex(s => s.stage === stage.stage) + 1;
+
+  // Show stages container and hide home
+  showStages();
+
+  // Update entire container content
+  const container = document.getElementById('stage-container');
+  container.innerHTML = `
+    <div class="range-header">
+      <div>${stage.range}</div>
+      <div>${stage.stage} of 9</div>
+    </div>
+
+    <div class="nav-buttons">
+      <a href="#" id="prev-btn">← Previous</a>
+      <a href="#" onclick="showStageIndex(); return false;">Stage Index</a>
+      <a href="#" id="next-btn">Next →</a>
+    </div>
+
+    <div class="stage-label">${stage.stage}</div>
+    <h1>${stage.title}</h1>
+
+    <div class="grid two-col">
+      <div class="panel sponsor">
+        <h2>Stage Sponsor</h2>
+        <div class="sponsor-logo">${stage.sponsor.toUpperCase()}</div>
+        <div class="muted">Sponsored By ${stage.sponsor}</div>
+      </div>
+
+      <div class="panel">
+        <h2>Quick Stats</h2>
+        <div class="quick-stats">
+          <div class="stat">
+            <div class="stat-label">Time</div>
+            <div class="stat-value">${stage.time}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Rounds</div>
+            <div class="stat-value">${stage.rounds}</div>
+          </div>
+          <div class="stat distance-stat">
+            <div class="stat-label">Distance</div>
+            <div class="stat-value">${stage.distance}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid two-col" style="margin-top:18px;">
+      <div class="panel">
+        <h2>Course of Fire</h2>
+        ${stage.cof}
+        <div class="important">
+          <div class="important-title">Important Notes</div>
+          <ul>
+            ${stage.notes.map(n => `<li>${n}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="panel">
+          <h2>Start Position</h2>
+          <p>${stage.start_position}</p>
+        </div>
+
+        <div class="panel">
+          <h2>Rules & Notes</h2>
+          <ul>
+            ${stage.rules_notes.map(r => `<li>${r}</li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h2>Target Summary</h2>
+          <p>${stage.target_summary}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <a href="#" id="prev-btn">← Previous</a>
+      <a href="#" onclick="showStageIndex(); return false;">Stage Index</a>
+      <a href="#" id="next-btn">Next →</a>
+    </div>
+  `;
+
+  // Re-attach navigation event listeners after rendering
+  attachNavListeners();
+}
+
+// Initialize - restore page state or show home
+restorePageState();
 
 // Notes Manager class
 class NotesManager {
