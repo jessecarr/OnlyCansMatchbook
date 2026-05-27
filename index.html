@@ -289,6 +289,25 @@
   }
 
   /* Mobile optimizations */
+  @media(max-width: 720px) {
+    .title-sponsors-container {
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .title-sponsor-item .sponsor-logo-img {
+      max-width: 140px;
+      height: auto;
+    }
+    
+    .day-image {
+      height: 150px;
+      object-fit: contain;
+      background: var(--panel);
+      padding: 10px;
+    }
+  }
+
   @media(max-width: 480px) {
     .dope {
       grid-template-columns: 1fr;
@@ -297,6 +316,14 @@
     
     .dope-item {
       border-right: none;
+    }
+    
+    .title-sponsor-item .sponsor-logo-img {
+      max-width: 120px;
+    }
+    
+    .day-image {
+      height: 120px;
     }
   }
 
