@@ -1526,28 +1526,6 @@ function renderStage(index) {
         ${stage.cof}
       </div>
 
-      <div class="grid">
-        <div class="panel">
-          <h2>Start Position</h2>
-          <p>${stage.start_position}</p>
-        </div>
-
-        <div class="panel">
-          <h2>Rules & Notes</h2>
-          <ul>
-            ${stage.rules_notes ? stage.rules_notes.map(r => `<li>${r}</li>`).join('') : ''}
-          </ul>
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="panel">
-          <h2>Target Summary</h2>
-          <p>${stage.target_summary}</p>
-        </div>
-      </div>
-    </div>
-
     <div class="nav-buttons">
       <a href="#" id="prev-btn">← Previous</a>
       <a href="#" onclick="showStageIndex(); return false;">Stage Index</a>
@@ -1759,18 +1737,10 @@ function generateStageContent(stage) {
       <div style="margin-bottom: 0.08in;">
         <strong>Time:</strong> ${stage.time}s | <strong>Rounds:</strong> ${stage.rounds} | <strong>Distance:</strong> ${stage.distance} yds
       </div>
-      <div style="margin-bottom: 0.08in;">
-        <strong>Start:</strong> ${stage.start_position}
-      </div>
-      
+            
       <div style="margin-bottom: 0.08in;">
         <strong>Course of Fire:</strong><br>
         <span style="font-size: 8pt;">${cofText}</span>
-      </div>
-      
-            
-      <div style="margin-bottom: 0.08in;">
-        <strong>Targets:</strong> <span style="font-size: 8pt;">${targetSummary}</span>
       </div>
     </div>
     
