@@ -2102,6 +2102,28 @@ function exportPrintableBook() {
   }, 500);
 }
 
+function generateSimpleStageContent(stage) {
+  const cofText = stripHtml(stage.cof);
+  
+  return `
+    <div class="print-stage-header" style="font-size: 14pt; font-weight: bold; margin-bottom: 0.15in;">${stage.day}: ${stage.stage} - ${stage.title}</div>
+    
+    <div class="print-stage-content" style="font-size: 12pt;">
+      <div style="margin-bottom: 0.12in;">
+        <strong>Sponsor:</strong> ${stage.sponsor}
+      </div>
+      <div style="margin-bottom: 0.12in;">
+        <strong>Time:</strong> ${stage.time}s | <strong>Rounds:</strong> ${stage.rounds} | <strong>Distance:</strong> ${stage.distance} yds
+      </div>
+            
+      <div style="margin-bottom: 0.12in;">
+        <strong>Course of Fire:</strong><br>
+        <span style="font-size: 11pt;">${cofText}</span>
+      </div>
+    </div>
+  `;
+}
+
 function exportSimplePrintLayout() {
   const printBook = document.getElementById('print-book');
   let html = '';
@@ -2113,8 +2135,22 @@ function exportSimplePrintLayout() {
     
     html += `
       <div class="print-sheet">
-        <div class="print-page-left">${generateStageContent(leftStage)}</div>
-        ${rightStage ? `<div class="print-page-right">${generateStageContent(rightStage)}</div>` : '<div class="print-page-right"></div>'}
+        <div class="print-page-left">
+          ${generateSimpleStageContent(leftStage)}
+          <div class="print-notes-section">
+            <div style="text-decoration: underline; font-weight: bold; margin-bottom: 0.2in;">Notes:</div>
+            <div style="height: 1in;"></div>
+          </div>
+        </div>
+        ${rightStage ? `
+          <div class="print-page-right">
+            ${generateSimpleStageContent(rightStage)}
+            <div class="print-notes-section">
+              <div style="text-decoration: underline; font-weight: bold; margin-bottom: 0.2in;">Notes:</div>
+              <div style="height: 1in;"></div>
+            </div>
+          </div>
+        ` : '<div class="print-page-right"></div>'}
       </div>
     `;
   }
