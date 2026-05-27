@@ -1590,13 +1590,6 @@ function renderStage(index) {
 
   // Re-attach navigation event listeners after rendering
   attachNavListeners();
-  
-  // Re-initialize notes manager for this stage
-  if (window.notesManager) {
-    window.notesManager.updateStage();
-  } else {
-    window.notesManager = new NotesManager();
-  }
 }
 
 // Initialize - restore page state or show home
