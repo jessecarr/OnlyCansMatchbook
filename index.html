@@ -616,6 +616,69 @@
     color: var(--bg);
   }
 
+  .day-date {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 12px 15px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .schedule-section {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 40px;
+  }
+
+  .schedule-section h3 {
+    color: var(--accent);
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .schedule-day {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .schedule-day:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .schedule-date {
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .schedule-details p {
+    margin: 8px 0;
+    line-height: 1.4;
+  }
+
+  .beer-notice {
+    background: rgba(100, 116, 139, 0.1);
+    border: 1px solid var(--accent);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .beer-notice p {
+    margin: 0;
+    color: var(--accent);
+    font-weight: bold;
+  }
+
   /* Printable Book Styles */
   .print-book {
     display: none;
@@ -824,6 +887,7 @@
     <h3>Match Overview</h3>
     <div class="day-cards">
       <div class="day-card">
+        <div class="day-date">Saturday May 30th</div>
         <h4>Day 1 - Gadsden Shooting Center</h4>
         <img src="images/gadsden-logo.jpeg" alt="Day 1 Range" class="day-image">
         <div class="location-info">
@@ -834,6 +898,7 @@
       </div>
       
       <div class="day-card">
+        <div class="day-date">Sunday May 31st</div>
         <h4>Day 2 - Missouri Mile Shooting Ranch</h4>
         <img src="images/mo-mile-logo.jpg" alt="Day 2 Range" class="day-image">
         <div class="location-info">
@@ -842,6 +907,42 @@
           <a href="https://maps.google.com/?q=398+Foxtrotter+Lane,+Macks+Creek,+MO+65786" target="_blank" class="maps-link">📍 Get Directions</a>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="schedule-section">
+    <h3>SCHEDULE</h3>
+    
+    <div class="schedule-day">
+      <div class="schedule-date">Friday, May 29——10am to 3pm</div>
+      <div class="schedule-details">
+        <p><strong>Tune Up Day</strong></p>
+        <p>- $40 at check in. Cash only…don't show up with a card and say you didn't know…</p>
+        <p>- We won't have food for you so bring your own snackage</p>
+        <p>- This will be at Gadsden Shooting Center</p>
+      </div>
+    </div>
+    
+    <div class="schedule-day">
+      <div class="schedule-date">Saturday, May 30——Safety Brief at 830…Match starts at 9…</div>
+      <div class="schedule-details">
+        <p><strong>- DO NOT MISS THE BRIEF OR YOU WON'T SHOOT</strong></p>
+        <p>- Gadsden Shooting Center</p>
+        <p>- A late breakfast will be provided, we will skip lunch and have dinner ready for you..</p>
+      </div>
+    </div>
+    
+    <div class="schedule-day">
+      <div class="schedule-date">Sunday, May 31——No safety brief. Shooting starts at 8am.</div>
+      <div class="schedule-details">
+        <p>- Missouri Mile Shooting Ranch</p>
+        <p>- Show up early and have your stuff at your designated stages. You guys will get the green light right away.</p>
+        <p>- A late breakfast will be provided, we will skip lunch and have dinner ready for you..</p>
+      </div>
+    </div>
+    
+    <div class="beer-notice">
+      <p><strong>BEER WILL BE PROVIDED AT DINNER ON BOTH DAYS! COURTESY OF STRAIGHT JACKET ARMORY</strong></p>
     </div>
   </div>
 
