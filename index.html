@@ -2032,63 +2032,63 @@ function exportPrintableBook() {
     </div>
   `;
   
-  // Sheet 2: Sponsor page (RIGHT) + Day 2 Stage 8 (LEFT) / Day 1 Stage 1 (RIGHT) + Day 2 Stage 7 (LEFT)
+  // Sheet 2: Sponsor page (RIGHT) + Day 2 Stage 8 (LEFT) / Day 1 Stage 1 (left) + Day 2 Stage 7 (right)
   html += `
     <div class="print-sheet">
       <div class="print-page-left">${generateStageContent(day2Stages[7])}</div>
       <div class="print-page-right">${generateOverviewPage()}</div>
     </div>
     <div class="print-sheet">
-      <div class="print-page-left">${generateStageContent(day2Stages[6])}</div>
-      <div class="print-page-right">${generateStageContent(day1Stages[0])}</div>
+      <div class="print-page-left">${generateStageContent(day1Stages[0])}</div>
+      <div class="print-page-right">${generateStageContent(day2Stages[6])}</div>
     </div>
   `;
   
-  // Sheet 3: Day 1 Stage 2 (RIGHT) + Day 2 Stage 6 (LEFT) / Day 1 Stage 3 (RIGHT) + Day 2 Stage 5 (LEFT)
+  // Sheet 3: Day 1 Stage 2 (RIGHT) + Day 2 Stage 6 (LEFT) / Day 1 Stage 3 (left) + Day 2 Stage 5 (right)
   html += `
     <div class="print-sheet">
       <div class="print-page-left">${generateStageContent(day2Stages[5])}</div>
       <div class="print-page-right">${generateStageContent(day1Stages[1])}</div>
     </div>
     <div class="print-sheet">
-      <div class="print-page-left">${generateStageContent(day2Stages[4])}</div>
-      <div class="print-page-right">${generateStageContent(day1Stages[2])}</div>
+      <div class="print-page-left">${generateStageContent(day1Stages[2])}</div>
+      <div class="print-page-right">${generateStageContent(day2Stages[4])}</div>
     </div>
   `;
   
-  // Sheet 4: Day 1 Stage 4 (RIGHT) + Day 2 Stage 4 (LEFT) / Day 1 Stage 5 (RIGHT) + Day 2 Stage 3 (LEFT)
+  // Sheet 4: Day 1 Stage 4 (RIGHT) + Day 2 Stage 4 (LEFT) / Day 1 Stage 5 (left) + Day 2 Stage 3 (right)
   html += `
     <div class="print-sheet">
       <div class="print-page-left">${generateStageContent(day2Stages[3])}</div>
       <div class="print-page-right">${generateStageContent(day1Stages[3])}</div>
     </div>
     <div class="print-sheet">
-      <div class="print-page-left">${generateStageContent(day2Stages[2])}</div>
-      <div class="print-page-right">${generateStageContent(day1Stages[4])}</div>
+      <div class="print-page-left">${generateStageContent(day1Stages[4])}</div>
+      <div class="print-page-right">${generateStageContent(day2Stages[2])}</div>
     </div>
   `;
   
-  // Sheet 5: Day 1 Stage 6 (RIGHT) + Day 2 Stage 2 (LEFT) / Day 1 Stage 7 (RIGHT) + Day 2 Stage 1 (LEFT)
+  // Sheet 5: Day 1 Stage 6 (RIGHT) + Day 2 Stage 2 (LEFT) / Day 1 Stage 7 (left) + Day 2 Stage 1 (right)
   html += `
     <div class="print-sheet">
       <div class="print-page-left">${generateStageContent(day2Stages[1])}</div>
       <div class="print-page-right">${generateStageContent(day1Stages[5])}</div>
     </div>
     <div class="print-sheet">
-      <div class="print-page-left">${generateStageContent(day2Stages[0])}</div>
-      <div class="print-page-right">${generateStageContent(day1Stages[6])}</div>
+      <div class="print-page-left">${generateStageContent(day1Stages[6])}</div>
+      <div class="print-page-right">${generateStageContent(day2Stages[0])}</div>
     </div>
   `;
   
-  // Sheet 6: Day 1 Stage 8 (RIGHT) + Day 2 separator (LEFT) / Day 1 Stage 9 (RIGHT) + Blank (LEFT)
+  // Sheet 6: Day 1 Stage 8 (RIGHT) + Day 2 separator (LEFT) / Day 1 Stage 9 (left) + Blank (right)
   html += `
     <div class="print-sheet">
       <div class="print-page-left">${generateDaySeparatorPage()}</div>
       <div class="print-page-right">${generateStageContent(day1Stages[7])}</div>
     </div>
     <div class="print-sheet">
-      <div class="print-page-left">${generateBlankPage()}</div>
-      <div class="print-page-right">${generateStageContent(day1Stages[8])}</div>
+      <div class="print-page-left">${generateStageContent(day1Stages[8])}</div>
+      <div class="print-page-right">${generateBlankPage()}</div>
     </div>
   `;
   
