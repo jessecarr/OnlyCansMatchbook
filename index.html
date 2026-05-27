@@ -2020,15 +2020,15 @@ function exportPrintableBook() {
   const day1Stages = stages.filter(s => s.day === 'Day 1');
   const day2Stages = stages.filter(s => s.day === 'Day 2');
   
-  // Sheet 1: Front cover + Back cover (blank) / Blank (inside front) + Day 2 Stage 9
+  // Sheet 1: Blank (left) + Front cover (right) / Day 2 Stage 9 (left) + Blank (right)
   html += `
     <div class="print-sheet">
-      <div class="print-page-left">${generateFrontCover()}</div>
-      <div class="print-page-right">${generateBlankPage()}</div>
+      <div class="print-page-left">${generateBlankPage()}</div>
+      <div class="print-page-right">${generateFrontCover()}</div>
     </div>
     <div class="print-sheet">
-      <div class="print-page-left">${generateBlankPage()}</div>
-      <div class="print-page-right">${generateStageContent(day2Stages[8])}</div>
+      <div class="print-page-left">${generateStageContent(day2Stages[8])}</div>
+      <div class="print-page-right">${generateBlankPage()}</div>
     </div>
   `;
   
