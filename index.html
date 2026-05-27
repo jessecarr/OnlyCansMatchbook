@@ -473,6 +473,30 @@
     margin-bottom: 15px;
   }
 
+  .title-sponsors-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .title-sponsor-item {
+    text-align: center;
+    flex: 1;
+  }
+
+  .title-sponsor-item .sponsor-logo-img {
+    max-width: 180px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .title-sponsor-item p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
   .sponsor-logo-img {
     max-width: 200px;
     height: auto;
@@ -739,9 +763,17 @@
     <h1>2026 Full Circle Shooting Supply</h1>
     <h2>Only Cans Match</h2>
     <div class="title-sponsor">
-      <h3>Title Sponsor</h3>
-      <img src="images/ABSuppressorLogo.png" alt="AB Suppressor" class="sponsor-logo-img">
-      <p>AB Suppressor</p>
+      <h3>Title Sponsors</h3>
+      <div class="title-sponsors-container">
+        <div class="title-sponsor-item">
+          <img src="images/ab-suppressor-logo.jpg" alt="AB Suppressor" class="sponsor-logo-img">
+          <p>AB Suppressor</p>
+        </div>
+        <div class="title-sponsor-item">
+          <img src="images/billet precision.jpg" alt="Billet Precision Rifles" class="sponsor-logo-img">
+          <p>Billet Precision Rifles</p>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -750,7 +782,7 @@
     <div class="day-cards">
       <div class="day-card">
         <h4>Day 1 - Gadsden Shooting Center</h4>
-        <img src="images/gadsden-logo.jpg" alt="Day 1 Range" class="day-image">
+        <img src="images/gadsden-logo.jpeg" alt="Day 1 Range" class="day-image">
         <div class="location-info">
           <p><strong>Location:</strong> Gadsden Shooting Center</p>
           <p><strong>Address:</strong> 538 MO EE, Iberia, MO 65486</p>
@@ -1768,12 +1800,20 @@ function generateOverviewStageSheet(stage) {
   return `
     <div class="print-sheet">
       <div class="print-page-left">
-        <div class="print-section-title">Title Sponsor</div>
-        <img src="images/ABSuppressorLogo.png" alt="AB Suppressor" class="print-sponsor-logo">
-        <p style="text-align: center; margin-bottom: 0.3in; font-size: 10pt;"><strong>AB Suppressor</strong></p>
+        <div class="print-section-title">Title Sponsors</div>
+        <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 0.3in;">
+          <div style="text-align: center; flex: 1;">
+            <img src="images/ab-suppressor-logo.jpg" alt="AB Suppressor" class="print-sponsor-logo" style="max-width: 2in; height: auto;">
+            <p style="font-size: 10pt; margin: 0.1in 0;"><strong>AB Suppressor</strong></p>
+          </div>
+          <div style="text-align: center; flex: 1;">
+            <img src="images/billet precision.jpg" alt="Billet Precision Rifles" class="print-sponsor-logo" style="max-width: 2in; height: auto;">
+            <p style="font-size: 10pt; margin: 0.1in 0;"><strong>Billet Precision Rifles</strong></p>
+          </div>
+        </div>
         
         <div class="print-section-title">Day 1 - Gadsden Shooting Center</div>
-        <img src="images/gadsden-logo.jpg" alt="Gadsden" class="print-sponsor-logo">
+        <img src="images/gadsden-logo.jpeg" alt="Gadsden" class="print-sponsor-logo">
         <p style="text-align: center; font-size: 9pt;">538 MO EE, Iberia, MO 65486</p>
         
         <div class="print-section-title">Day 2 - Missouri Mile Shooting Ranch</div>
@@ -1833,12 +1873,20 @@ function generateFrontCover() {
 
 function generateOverviewPage() {
   return `
-    <div class="print-section-title">Title Sponsor</div>
-    <img src="images/ABSuppressorLogo.png" alt="AB Suppressor" class="print-sponsor-logo">
-    <p style="text-align: center; margin-bottom: 0.3in; font-size: 10pt;"><strong>AB Suppressor</strong></p>
+    <div class="print-section-title">Title Sponsors</div>
+    <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 0.3in;">
+      <div style="text-align: center; flex: 1;">
+        <img src="images/ab-suppressor-logo.jpg" alt="AB Suppressor" class="print-sponsor-logo" style="max-width: 2in; height: auto;">
+        <p style="font-size: 10pt; margin: 0.1in 0;"><strong>AB Suppressor</strong></p>
+      </div>
+      <div style="text-align: center; flex: 1;">
+        <img src="images/billet precision.jpg" alt="Billet Precision Rifles" class="print-sponsor-logo" style="max-width: 2in; height: auto;">
+        <p style="font-size: 10pt; margin: 0.1in 0;"><strong>Billet Precision Rifles</strong></p>
+      </div>
+    </div>
     
     <div class="print-section-title">Day 1 - Gadsden Shooting Center</div>
-    <img src="images/gadsden-logo.jpg" alt="Gadsden" class="print-sponsor-logo">
+    <img src="images/gadsden-logo.jpeg" alt="Gadsden" class="print-sponsor-logo">
     <p style="text-align: center; font-size: 9pt;">538 MO EE, Iberia, MO 65486</p>
     
     <div class="print-section-title">Day 2 - Missouri Mile Shooting Ranch</div>
