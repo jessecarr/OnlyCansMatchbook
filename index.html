@@ -952,7 +952,8 @@
     <p>Save this app to your device for offline access at matches</p>
     
     <button class="download-btn" onclick="downloadApp()">⬇️ Download App</button>
-        <button class="download-btn" onclick="exportPrintableBook()">📖 Export Printable Book</button>
+        <button class="download-btn" onclick="exportPrintableBook()">📖 Print as Book</button>
+        <button class="download-btn" onclick="exportSimplePrintLayout()">📄 Simple Print</button>
   </div>
 </div>
 
@@ -2092,6 +2093,31 @@ function exportPrintableBook() {
       <div class="print-page-right">${generateDaySeparatorPage()}</div>
     </div>
   `;
+  
+  printBook.innerHTML = html;
+  
+  // Trigger print dialog
+  setTimeout(() => {
+    window.print();
+  }, 500);
+}
+
+function exportSimplePrintLayout() {
+  const printBook = document.getElementById('print-book');
+  let html = '';
+  
+  // Simple sequential layout: 2 stages per page, side by side
+  for (let i = 0; i < stages.length; i += 2) {
+    const leftStage = stages[i];
+    const rightStage = stages[i + 1];
+    
+    html += `
+      <div class="print-sheet">
+        <div class="print-page-left">${generateStageContent(leftStage)}</div>
+        ${rightStage ? `<div class="print-page-right">${generateStageContent(rightStage)}</div>` : '<div class="print-page-right"></div>'}
+      </div>
+    `;
+  }
   
   printBook.innerHTML = html;
   
