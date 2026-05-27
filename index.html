@@ -2080,15 +2080,15 @@ function exportPrintableBook() {
     </div>
   `;
   
-  // Sheet 6: Day 1 Stage 8 (RIGHT) + Day 2 separator (LEFT) / Day 1 Stage 9 (left) + Blank (right)
+  // Sheet 6: Day 1 Stage 8 (RIGHT) + blank (LEFT) / Day 1 Stage 9 (left) + Day 2 separator (right)
   html += `
     <div class="print-sheet">
-      <div class="print-page-left">${generateDaySeparatorPage()}</div>
+      <div class="print-page-left">${generateBlankPage()}</div>
       <div class="print-page-right">${generateStageContent(day1Stages[7])}</div>
     </div>
     <div class="print-sheet">
       <div class="print-page-left">${generateStageContent(day1Stages[8])}</div>
-      <div class="print-page-right">${generateBlankPage()}</div>
+      <div class="print-page-right">${generateDaySeparatorPage()}</div>
     </div>
   `;
   
