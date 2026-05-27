@@ -762,8 +762,7 @@
   <a href="#" class="active" id="day1-tab">Day 1</a>
   <a href="#" id="day2-tab">Day 2</a>
   <a href="#" onclick="showStageIndex(); return false;">Stage Index</a>
-  <a href="#info">Match Info</a>
-</div>
+  </div>
 
 <div id="stage-index" class="stage-index" style="display: none;">
   <div class="stage-index-header">
@@ -1588,16 +1587,7 @@ function renderStage(index) {
         ${stage.cof}
       </div>
 
-    <div class="dope" id="dope">
-      <div class="dope-item">
-        <label>Notes</label>
-        <textarea id="notes-input" placeholder="Enter your stage notes here..."></textarea>
-        <div class="notes-controls">
-          <span id="save-status" class="save-status">Saved</span>
-        </div>
-      </div>
-    </div>
-  `;
+      `;
 
   // Re-attach navigation event listeners after rendering
   attachNavListeners();
@@ -1798,11 +1788,6 @@ function generateStageContent(stage) {
         <strong>Course of Fire:</strong><br>
         <span style="font-size: 8pt;">${cofText}</span>
       </div>
-    </div>
-    
-    <div class="print-notes-section">
-      <div class="print-notes-title">Notes:</div>
-      <div class="print-notes-area"></div>
     </div>
   `;
 }
