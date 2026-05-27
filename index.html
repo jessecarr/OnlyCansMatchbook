@@ -1661,7 +1661,7 @@ function renderStage(index) {
       <a href="#" id="next-btn">Next →</a>
     </div>
 
-    <div class="stage-label">${stage.stage}</div>
+    <div class="stage-label">${stage.day}: ${stage.stage}</div>
     <h1>${stage.title}</h1>
 
     <div class="grid two-col">
@@ -1875,7 +1875,7 @@ function generateStageContent(stage) {
   const targetSummary = stripHtml(stage.target_summary);
   
   return `
-    <div class="print-stage-header">${stage.stage} - ${stage.title}</div>
+    <div class="print-stage-header">${stage.day}: ${stage.stage} - ${stage.title}</div>
     
     <div class="print-stage-content">
       <div style="margin-bottom: 0.08in;">
